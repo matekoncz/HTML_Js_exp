@@ -35,7 +35,7 @@ requestAnimationFrame(animate)
 var time =clock.getElapsedTime()
 ball.rotation.set(time,time,0)
 box.rotation.set(time,time,0)
-henger.rotation.set(time,2*time,0)
+henger.rotation.set(2*time,2*time,0)
 renderer.render(scene,camera)
 }
 henger=new t.Mesh(new t.CylinderGeometry(20,20,100), cover)
