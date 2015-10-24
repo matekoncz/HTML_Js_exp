@@ -1,0 +1,65 @@
+<body></body>
+<script src="http://gamingJS.com/Three.js"></script>
+<script src="http://gamingJS.com/ChromeFixes.js"></script>
+<script>
+  // This is where stuff in our game will happen:
+  var scene = new THREE.Scene();
+
+  // This is what sees the stuff:
+  var aspect_ratio = window.innerWidth / window.innerHeight;
+  var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
+  camera.position.z = 500;
+  scene.add(camera);
+
+  // This will draw what the camera sees onto the screen:
+  var renderer = new THREE.CanvasRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // ******** START CODING ON THE NEXT LINE ********
+var shape = new THREE.CubeGeometry(30,100,30)
+var cover = new THREE.MeshNormalMaterial()
+var box = new THREE.Mesh(shape,cover)
+scene.add(box)
+box.rotation.set(0,0,0)
+t=THREE
+box.position.set(-25,-186,0)
+ball=new t.Mesh(new t.SphereGeometry(50,20,15), cover)
+scene.add(ball)
+ball.position.set(0,0,0)
+box2 = new t.Mesh(new t.CubeGeometry(30,100,30),cover)
+scene.add(box2)
+box2.position.set(25,-186,10)
+var clock = new t.Clock()
+function animate() {
+requestAnimationFrame(animate)
+ball.rotation.z = ball.rotation.z + 0.1
+renderer.render(scene,camera)
+}
+henger=new t.Mesh(new t.CylinderGeometry(40,39,100), cover)
+henger.position.set(-0,-90,0)
+scene.add(henger)
+
+//animate()  
+
+ball2 = new t.Mesh(new t.SphereGeometry(25,10,7),cover)
+scene.add(ball2)
+ball2.position.set(-100,-50,0)
+ball3 = new t.Mesh(new t.SphereGeometry(25,10,7),cover)
+scene.add(ball3)
+ball3.position.set(100,-50,0)
+
+ball.add(ball2)
+ball.add(ball3)
+ball.add(box)
+ball.add(box2)
+ball.add(henger)
+
+
+
+
+
+
+  // Now, show what the camera sees on the screen:
+  renderer.render(scene, camera);
+</script>
