@@ -23,36 +23,80 @@ var box = new THREE.Mesh(shape,cover)
 scene.add(box)
 box.rotation.set(0,0,0)
 t=THREE
-box.position.set(-225,-100,0)
-
+box.position.set(-25,-186,0)
 ball=new t.Mesh(new t.SphereGeometry(50,20,15), cover)
 scene.add(ball)
-ball.position.set(-200,90,0)
-
+ball.position.set(0,0,0)
 box2 = new t.Mesh(new t.CubeGeometry(30,100,30),cover)
 scene.add(box2)
-box2.position.set(-175,-100,10)
-
+box2.position.set(25,-186,10)
 var clock = new t.Clock()
 function animate() {
 requestAnimationFrame(animate)
-var time =clock.getElapsedTime()
-ball.rotation.set(time,time,0)
-box.rotation.set(time,time,0)
-henger.rotation.set(time,time,0)
+ball.rotation.z = ball.rotation.z + 0.1
 renderer.render(scene,camera)
 }
 henger=new t.Mesh(new t.CylinderGeometry(40,39,100), cover)
-henger.position.set(-200,0,0)
+henger.position.set(-0,-90,0)
 scene.add(henger)
+
 //animate()  
+
 ball2 = new t.Mesh(new t.SphereGeometry(25,10,7),cover)
 scene.add(ball2)
-ball2.position.set(-130,20,0)
+ball2.position.set(-100,-50,0)
 ball3 = new t.Mesh(new t.SphereGeometry(25,10,7),cover)
 scene.add(ball3)
-ball3.position.set(-280,20,0)
+ball3.position.set(100,-50,0)
 
+ball.add(ball2)
+ball.add(ball3)
+ball.add(box)
+ball.add(box2)
+ball.add(henger)
+
+document.addEventListener('keydown',function(event){
+  
+  var code = event.keyCode
+  
+  if (code == 37) {
+    ball.position.x = ball.position.x-5
+  }
+  if (code == 39) ball.position.x = ball.position.x+5
+  if (code == 38) ball.position.z = ball.position.z-5
+  if (code == 40) ball.position.z = ball.position.z+5
+renderer.render(scene, camera);
+})
+
+donout = new t.Mesh(new t.TorusGeometry(100,25),cover)
+scene.add(donout)
+donout.rotation.set(0,1,0)
+donout.position.set(-500,0,-100)
+
+donout2 = new t.Mesh(new t.TorusGeometry(100,25),cover)
+scene.add(donout2)
+donout2.rotation.set(0,-1,0)
+donout2.position.set(500,0,-100)
+
+makeTreeAt(500,0);
+makeTreeAt(-500,0);
+makeTreeAt(750,-1000);
+makeTreeAt(-750,-1000);
+
+function makeTreeAt(x,z){
+  var trunk = new THREE.Mesh(
+    new THREE.CylinderGeometry(50,50,200),
+    new THREE.MeshBasicMaterial({color:  0xA0522D })
+    )
+  var top = new THREE.Mesh(
+    new THREE.SphereGeometry(150),
+    new THREE.MeshBasicMaterial({color: 0x228B22})
+    )
+  top.position.y = 175
+  trunk.add(top);
+  trunk.position.set(x, -75,z);
+  scene.add(trunk);
+}
 
 
   // Now, show what the camera sees on the screen:
