@@ -6,7 +6,7 @@
   var scene = new THREE.Scene();
 
   // This is what sees the stuff:
-  var aspect_ratio = window.innerWidth / window.innerHeight;
+  var aspect_ratio = window.innerWidth / window.innerHeight;                  
   var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
   camera.position.z = 500;
   scene.add(camera);
@@ -17,6 +17,8 @@
   document.body.appendChild(renderer.domElement);
 
   // ******** START CODING ON THE NEXT LINE ********
+  var not_allowed = [];
+  
 var shape = new THREE.CubeGeometry(30,100,30)
 var cover = new THREE.MeshNormalMaterial()
 var box = new THREE.Mesh(shape,cover)
@@ -26,16 +28,10 @@ t=THREE
 box.position.set(-25,-186,0)
 ball=new t.Mesh(new t.SphereGeometry(50,20,15), cover)
 scene.add(ball)
-ball.position.set(0,0,0)
+ball.position.set(0,90,0)
 box2 = new t.Mesh(new t.CubeGeometry(30,100,30),cover)
 scene.add(box2)
 box2.position.set(25,-186,10)
-var clock = new t.Clock()
-function animate() {
-requestAnimationFrame(animate)
-ball.rotation.z = ball.rotation.z + 0.1
-renderer.render(scene,camera)
-}
 henger=new t.Mesh(new t.CylinderGeometry(40,39,100), cover)
 henger.position.set(-0,-90,0)
 scene.add(henger)
@@ -60,11 +56,27 @@ document.addEventListener('keydown',function(event){
   var code = event.keyCode
   
   if (code == 37) {
-    ball.position.x = ball.position.x-5
+    marker.position.x = marker.position.x-5
+    is_moving_left=true;
   }
-  if (code == 39) ball.position.x = ball.position.x+5
-  if (code == 38) ball.position.z = ball.position.z-5
-  if (code == 40) ball.position.z = ball.position.z+5
+  if (code == 39) {
+    marker.position.x = marker.position.x+5
+    is_moving_right = true;
+  }
+  if (code == 38) {
+    marker.position.z = marker.position.z-5
+    is_moving_back = true;
+  }
+  if (code == 40) {
+    marker.position.z = marker.position.z+5
+    is_moving_forward = true;
+  }
+   if(detectCollisions()) {
+    if (is_moving_left) marker.position.x = marker.position.x+5;
+    if (is_moving_right) marker.position.x = marker.position.x-5;
+    if (is_moving_forward) marker.position.x = marker.position.z+5;
+    if (is_moving_back) marker.position.x = marker.position.z-5
+  }
 renderer.render(scene, camera);
 })
 
@@ -92,13 +104,82 @@ function makeTreeAt(x,z){
     new THREE.SphereGeometry(150),
     new THREE.MeshBasicMaterial({color: 0x228B22})
     )
+    
+    
   top.position.y = 175
   trunk.add(top);
-  trunk.position.set(x, -75,z);
-  scene.add(trunk);
+ 
+  
+  var boundary = new THREE.Mesh(
+  new THREE.CircleGeometry(300),
+  new THREE.MeshNormalMaterial()
+  );
+  not_allowed.push(boundary);
+  boundary.position.y = -100;
+  boundary.rotation.x = -Math.PI/2;
+  trunk.add(boundary);
+  
+   trunk.position.set(x, -75,z);
+  scene.add(trunk)
 }
 
+var marker = new THREE.Object3D()
+scene.add(marker);
+marker.add(camera);
+marker.add(ball);
+
+var clock = new THREE.Clock(true);
+function animate(){
+  requestAnimationFrame(animate);
+  walk();
+  turn();
+  renderer.render(scene,camera);
+}
+animate();
+
+function walk(){
+  if (!isWalking()) return;
+  var position = Math.sin(clock.getElapsedTime() *10) *100;
+  ball2.position.z = position;
+  ball3.position.z = -position;
+  box.position.z = -position/2;
+  box2.position.z = position/2;
+}
+
+var is_moving_right, is_moving_left, is_moving_forward, is_moving_back;
+
+function isWalking(){
+  if (is_moving_right) return true;
+  if (is_moving_left) return true;
+  if (is_moving_back) return true;
+  if (is_moving_forward) return true;
+  return false;
+}
+
+function turn() {
+  var direction = 0
+  if (is_moving_forward) direction = Math.PI;
+  if (is_moving_back) direction = 0;
+  if (is_moving_left) direction = Math.PI/2;
+  if (is_moving_right) direction = Math.PI/2;
+  ball.rotation.y = direction;
+}
+document.addEventListener('keyup', function(event){
+  var code = event.keyCode;
+  if (code == 37) is_moving_left = false;
+  if (code == 39) is_moving_right = false;
+  if (code == 38) is_moving_forward = false;
+  if (code == 40) is_moving_back = false;
+}); 
 
   // Now, show what the camera sees on the screen:
   renderer.render(scene, camera);
+   function detectCollisions() {
+    var vector = new THREE.Vector3(0,-1,0)
+    var ray = new THREE.Ray(marker.position,vector);
+    var intersects = ray.intersectObjects(not_allowed);
+    if (intersects.lenght > 0) return true;
+    return false;
+  }
+  
 </script>
