@@ -174,11 +174,12 @@ document.addEventListener('keyup', function(event){
 
   // Now, show what the camera sees on the screen:
   renderer.render(scene, camera);
-   function detectCollisions() {
+  
+  function detectCollisions() {
     var vector = new THREE.Vector3(0,-1,0)
     var ray = new THREE.Ray(marker.position,vector);
     var intersects = ray.intersectObjects(not_allowed);
-    if (intersects.lenght > 0) return true;
+    if (intersects.length > 0) return true;
     return false;
   }
   
