@@ -74,8 +74,8 @@ document.addEventListener('keydown',function(event){
    if(detectCollisions()) {
     if (is_moving_left) marker.position.x = marker.position.x+5;
     if (is_moving_right) marker.position.x = marker.position.x-5;
-    if (is_moving_forward) marker.position.x = marker.position.z+5;
-    if (is_moving_back) marker.position.x = marker.position.z-5
+    if (is_moving_forward) marker.position.z = marker.position.z-5;
+    if (is_moving_back) marker.position.z = marker.position.z+5
   }
 renderer.render(scene, camera);
 })
