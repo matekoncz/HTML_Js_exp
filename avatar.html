@@ -4,18 +4,15 @@
 <script>
   // This is where stuff in our game will happen:
   var scene = new THREE.Scene();
-
   // This is what sees the stuff:
   var aspect_ratio = window.innerWidth / window.innerHeight;                  
   var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
   camera.position.z = 500;
   scene.add(camera);
-
   // This will draw what the camera sees onto the screen:
   var renderer = new THREE.CanvasRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
-
   // ******** START CODING ON THE NEXT LINE ********
   var not_allowed = [];
   
@@ -35,22 +32,18 @@ box2.position.set(25,-186,10)
 henger=new t.Mesh(new t.CylinderGeometry(40,39,100), cover)
 henger.position.set(-0,-90,0)
 scene.add(henger)
-
 //animate()  
-
 ball2 = new t.Mesh(new t.SphereGeometry(25,10,7),cover)
 scene.add(ball2)
 ball2.position.set(-100,-50,0)
 ball3 = new t.Mesh(new t.SphereGeometry(25,10,7),cover)
 scene.add(ball3)
 ball3.position.set(100,-50,0)
-
 ball.add(ball2)
 ball.add(ball3)
 ball.add(box)
 ball.add(box2)
 ball.add(henger)
-
 document.addEventListener('keydown',function(event){
   
   var code = event.keyCode
@@ -79,22 +72,27 @@ document.addEventListener('keydown',function(event){
   }
 renderer.render(scene, camera);
 })
-
 donout = new t.Mesh(new t.TorusGeometry(100,25),cover)
 scene.add(donout)
 donout.rotation.set(0,1,0)
 donout.position.set(-500,0,-100)
-
 donout2 = new t.Mesh(new t.TorusGeometry(100,25),cover)
 scene.add(donout2)
 donout2.rotation.set(0,-1,0)
 donout2.position.set(500,0,-100)
-
 makeTreeAt(500,0);
 makeTreeAt(-500,0);
 makeTreeAt(750,-1000);
 makeTreeAt(-750,-1000);
-
+makeTreeAt(1500,0);
+makeTreeAt(-1500,0);
+makeTreeAt(1750,-1000);
+makeTreeAt(-1750,-1000);
+makeTreeAt(750,2000);
+makeTreeAt(-750,2000);
+makeTreeAt(1750,-2000);
+makeTreeAt(-1750,-2000);
+makeTreeAt(-170,-2000);
 function makeTreeAt(x,z){
   var trunk = new THREE.Mesh(
     new THREE.CylinderGeometry(50,50,200),
@@ -111,10 +109,11 @@ function makeTreeAt(x,z){
  
   
   var boundary = new THREE.Mesh(
-  new THREE.CircleGeometry(300),
+  new THREE.CircleGeometry(270),
   new THREE.MeshNormalMaterial()
   );
   not_allowed.push(boundary);
+  boundary.material.opacity=0
   boundary.position.y = -100;
   boundary.rotation.x = -Math.PI/2;
   trunk.add(boundary);
@@ -122,12 +121,10 @@ function makeTreeAt(x,z){
    trunk.position.set(x, -75,z);
   scene.add(trunk)
 }
-
 var marker = new THREE.Object3D()
 scene.add(marker);
 marker.add(camera);
 marker.add(ball);
-
 var clock = new THREE.Clock(true);
 function animate(){
   requestAnimationFrame(animate);
@@ -136,7 +133,6 @@ function animate(){
   renderer.render(scene,camera);
 }
 animate();
-
 function walk(){
   if (!isWalking()) return;
   var position = Math.sin(clock.getElapsedTime() *10) *100;
@@ -145,9 +141,7 @@ function walk(){
   box.position.z = -position/2;
   box2.position.z = position/2;
 }
-
 var is_moving_right, is_moving_left, is_moving_forward, is_moving_back;
-
 function isWalking(){
   if (is_moving_right) return true;
   if (is_moving_left) return true;
@@ -155,7 +149,6 @@ function isWalking(){
   if (is_moving_forward) return true;
   return false;
 }
-
 function turn() {
   var direction = 0
   if (is_moving_forward) direction = Math.PI;
@@ -171,12 +164,12 @@ document.addEventListener('keyup', function(event){
   if (code == 40) is_moving_forward = false;
   if (code == 38) is_moving_back = false;
 }); 
-
+//var alap = new THREE.Mesh(new THREE.CubeGeometry(1000,10,1000), cover);
+//scene.add(alap);
   // Now, show what the camera sees on the screen:
   renderer.render(scene, camera);
-  
   function detectCollisions() {
-    var vector = new THREE.Vector3(0,-1,0)
+    var vector = new THREE.Vector3(0,-1,0);
     var ray = new THREE.Ray(marker.position,vector);
     var intersects = ray.intersectObjects(not_allowed);
     if (intersects.length > 0) return true;
