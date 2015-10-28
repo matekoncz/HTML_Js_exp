@@ -1,10 +1,14 @@
-<body></body>
+﻿<body></body>
 <script src="http://gamingJS.com/Three.js"></script>
+<script src="http://gamingJS.com/Tween.js"></script>
 <script src="http://gamingJS.com/ChromeFixes.js"></script>
 <script src="http://gamingJS.com/Scoreboard.js"></script>
 <script src="http://gamingJS.com/Sounds.js"></script>
 <script>
-  // This is where stuff in our game will happen:
+
+//MV=document.getElementsByTagName('iframe')[0].contentWindow
+
+// This is where stuff in our game will happen:
   var scene = new THREE.Scene();
   // This is what sees the stuff:
   var aspect_ratio = window.innerWidth / window.innerHeight;                  
@@ -67,26 +71,26 @@ document.addEventListener('keydown',function(event){
   var code = event.keyCode
   
   if (code == 37) {
-    marker.position.x = marker.position.x-5
+    marker.position.x = marker.position.x-s
     is_moving_left=true;
   }
   if (code == 39) {
-    marker.position.x = marker.position.x+5
+    marker.position.x = marker.position.x+s
     is_moving_right = true;
   }
   if (code == 38) {
-    marker.position.z = marker.position.z-5
+    marker.position.z = marker.position.z-s
     is_moving_back = true;
   }
   if (code == 40) {
-    marker.position.z = marker.position.z+5
+    marker.position.z = marker.position.z+s
     is_moving_forward = true;
   }
    if(detectCollisions()) {
-    if (is_moving_left) marker.position.x = marker.position.x+5;
-    if (is_moving_right) marker.position.x = marker.position.x-5;
-    if (is_moving_forward) marker.position.z = marker.position.z-5;
-    if (is_moving_back) marker.position.z = marker.position.z+5
+    if (is_moving_left) marker.position.x = marker.position.x+s;
+    if (is_moving_right) marker.position.x = marker.position.x-s;
+    if (is_moving_forward) marker.position.z = marker.position.z-s;
+    if (is_moving_back) marker.position.z = marker.position.z+s;
   }
 renderer.render(scene, camera);
 })
@@ -102,16 +106,12 @@ makeTreeAt(500,0);
 makeTreeAt(-500,0);
 makeTreeAt(750,-1000);
 makeTreeAt(-750,-1000);
-makeTreeAt(1500,0);
-makeTreeAt(-1500,0);
-makeTreeAt(1750,-1000);
-makeTreeAt(-1750,-1000);
-makeTreeAt(750,2000);
-makeTreeAt(-750,2000);
-makeTreeAt(1750,-2000);
-makeTreeAt(-1750,-2000);
-makeTreeAt(-170,-2000);
+
+s=10//seesseg
+
+
 function makeTreeAt(x,z){
+
   var trunk = new THREE.Mesh(
     new THREE.CylinderGeometry(50,50,200),
     new THREE.MeshBasicMaterial({color:  0xA0522D })
@@ -120,23 +120,23 @@ function makeTreeAt(x,z){
     new THREE.SphereGeometry(150),
     new THREE.MeshBasicMaterial({color: 0x228B22})
     )
-    
-    
+      
   top.position.y = 175
   trunk.add(top);
  
-  
   var boundary = new THREE.Mesh(
-  new THREE.CircleGeometry(270),
-  new THREE.MeshNormalMaterial()
+    new THREE.CircleGeometry(270),
+    new THREE.MeshNormalMaterial()
   );
+  
   not_allowed.push(boundary);
+  
   boundary.material.opacity=0
   boundary.position.y = -100;
   boundary.rotation.x = -Math.PI/2;
   trunk.add(boundary);
   
-   trunk.position.set(x, -75,z);
+  trunk.position.set(x, -75,z);
   scene.add(trunk);
   return top;
 }
@@ -146,10 +146,12 @@ scene.add(marker);
 marker.add(camera);
 marker.add(ball);
 var clock = new THREE.Clock(true);
+
 function animate(){
   requestAnimationFrame(animate);
   walk();
   turn();
+  TWEEN.update()
   renderer.render(scene,camera);
 }
 animate();
@@ -184,16 +186,20 @@ document.addEventListener('keyup', function(event){
   if (code == 40) is_moving_forward = false;
   if (code == 38) is_moving_back = false;
 }); 
+
 fak.push(makeTreeAt( 500,0));
 fak.push(makeTreeAt( -500,0));
 fak.push(makeTreeAt(750,-1000));
-fak.push(makeTreeAt( -750,1000));
+fak.push(makeTreeAt( -750,-1000));
+
+
+
 function razzFa() {
   fa_kinccsel = Math.floor(Math.random() * fak.length);
   
   new TWEEN
     .Tween({x: 0})
-    .to ({x: 0})
+    .to ({x: 2*Math.PI},200)
     .repeat(20)
     .onUpdate(function (){
       fak[fa_kinccsel].position.x = 75 * Math.sin(this.x);
