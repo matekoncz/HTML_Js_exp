@@ -1,11 +1,11 @@
-﻿<body></body>
+<body></body>
 <script src="http://gamingJS.com/Three.js"></script>
 <script src="http://gamingJS.com/Tween.js"></script>
 <script src="http://gamingJS.com/ChromeFixes.js"></script>
 <script src="http://gamingJS.com/Scoreboard.js"></script>
 <script src="http://gamingJS.com/Sounds.js"></script>
 <script>
-
+//a 120-on van az animalobst
 //MV=document.getElementsByTagName('iframe')[0].contentWindow
 
 // This is where stuff in our game will happen:
@@ -86,6 +86,7 @@ document.addEventListener('keydown',function(event){
     marker.position.z = marker.position.z+s
     is_moving_forward = true;
   }
+  if (code == 32) jump()
    if(detectCollisions()) {
     if (is_moving_left) marker.position.x = marker.position.x+s;
     if (is_moving_right) marker.position.x = marker.position.x-s;
@@ -94,6 +95,39 @@ document.addEventListener('keydown',function(event){
   }
 renderer.render(scene, camera);
 })
+function jump() {
+ kereskincset();
+ animalUgras();
+}
+function kereskincset() {
+  if (fa_kinccsel == undefined) return;
+  
+  var kincses_fa = fak[fa_kinccsel],
+      p1 = kincses_fa.parent.position,
+      p2 = marker.position;
+  var distance = Math.sqrt(
+    (p1.x - p2.x)*(p1.x - p2.x) +
+    (p1.z - p2.z)*(p1.z - p2.z)
+    );
+    if (distance < 500) {
+      scorePoints();
+    }
+}
+function scorePoints() {
+  if (scoreboard.getTimeRemaining() === 0) return;
+  scoreboard.addPoints(10);
+  Sounds.bubble.play();
+  animateFruit();
+}
+function animalUgras() {
+  new TWEEN
+    .Tween({jump: 0})
+    .to({jump: Math.PI}, 500)
+    .onUpdate(function(){
+      marker.position.y = 200* Math.sin(this.jump)
+    })
+    .start();
+}
 donout = new t.Mesh(new t.TorusGeometry(100,25),cover)
 scene.add(donout)
 donout.rotation.set(0,1,0);
@@ -107,7 +141,7 @@ makeTreeAt(-500,0);
 makeTreeAt(750,-1000);
 makeTreeAt(-750,-1000);
 
-s=10//seesseg
+s=10//sebesseg
 
 
 function makeTreeAt(x,z){
@@ -209,6 +243,36 @@ function razzFa() {
 }
 
 razzFa();
+var fruit;
+function animateFruit() {
+  if (fruit) return;
+  fruit = new THREE.Mesh(
+    new THREE.CylinderGeometry(25,25,5,25),
+    new THREE.MeshBasicMaterial({color: 0xFFD700})
+    );
+    fruit.rotation.x = Math.PI/2;
+
+    marker.add(fruit);
+    
+    new TWEEN.
+      Tween({
+        height: 150,
+        spin: 0
+      }).
+      to({
+        height: 250,
+        spin: 4
+      }, 500).
+      onUpdate(function (){
+        fruit.position.y = this.height;
+        fruit.rotation.z = this.spin;
+      }).
+      onUpdate(function () {
+        marker.remove(fruit);
+        fruit = undefined;
+      }).
+      start();
+}
 //var alap = new THREE.Mesh(new THREE.CubeGeometry(1000,10,1000), cover);
 //scene.add(alap);
   // Now, show what the camera sees on the screen:
