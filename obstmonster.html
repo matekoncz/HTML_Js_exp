@@ -1,0 +1,50 @@
+<body></body>
+<script src="http://gamingJS.com/Three.js"></script>
+<script src="http://gamingJS.com/ChromeFixes.js"></script>
+<script src="http://gamingJs.com/physi.js"></script>
+<script src="http://gamingJS.com/Scoreboard.js"></script>
+</script>
+  
+  // This is where stuff in our game will happen:
+  var scene = new Physijs.Scene({ fixedTimeStep: 2/60});
+  scene.setGravity(new THREE.Vector3(0, -100, 0));
+
+  Physijs.scripts.ammo = 'http://gamingJs.com/ammo.js';
+  Physijs.scripts.worker = 'http//gamingJs.com/physijs_worker.js';
+  
+  // This is what sees the stuff:
+  var aspect_ratio = window.innerWidth / window.innerHeight;
+  var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
+  camera.position.z = 200;
+  camera.position.y = 100;
+  scene.add(camera);
+
+  // This will draw what the camera sees onto the screen:
+  var renderer = new THREE.WebGlRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // ******** START CODING ON THE NEXT LINE ********
+  
+  var ground = addGround();
+  //var avatar = addAvatar();
+  //var scoreboard = addScoreboard();
+  //animate();
+  //gameStep();
+
+function addGround(){
+  document.body.style.backgroundColor = '#87CEEB';
+  ground = new Physijs.PlaneMesh(
+    new THREE.PlaneGeometry(1e6, 1e6),
+    new THREE.MeshBasicMaterial({color: 0x7CF00})
+    );
+  ground.rotation.x = -Math.PI/2;
+  scene.add (ground);
+  return ground;
+}
+
+
+
+  // Now, show what the camera sees on the screen:
+  renderer.render(scene, camera);
+</script>
