@@ -1,0 +1,74 @@
+<body></body>
+<script src="http://gamingJS.com/Three.js"></script>
+<script src="http://gamingJS.com/ChromeFixes.js"></script>
+<script>
+  // This is where stuff in our game will happen:
+  var scene = new THREE.Scene();
+
+  // This is what sees the stuff:
+  var aspect_ratio = window.innerWidth / window.innerHeight;
+  var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
+  camera.position.z = 500;
+  scene.add(camera);
+
+  // This will draw what the camera sees onto the screen:
+  var renderer = new THREE.CanvasRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // ******** START CODING ON THE NEXT LINE ********
+
+  var forma = new THREE.SphereGeometry(100,25,25)
+  var anyag = new THREE.MeshNormalMaterial()
+  var goemb = new THREE.Mesh (forma,anyag)
+  scene.add(goemb)
+  goemb.rotation.z = 0
+  
+  var forma2 = new THREE.SphereGeometry(50,25,25)
+  var kiscucc = new THREE.Mesh(forma2,anyag)
+  kiscucc.position.x=75
+  goemb.add(kiscucc)
+  
+  var y = 15
+  kiscucc.position.y = y
+  
+  var kiscucc2=new THREE.Mesh(forma2,anyag)
+  kiscucc2.position.x = -75
+    kiscucc2.position.y = y
+
+  kiscucc2.position.y = y
+
+  
+  var forma3 = new THREE.SphereGeometry(70,25,25)
+  var fej = new THREE.Mesh(forma3,anyag)
+  
+  fej.position.y = 100
+  goemb.add(fej)
+  
+  goemb.add(kiscucc2)
+  
+  var laab1 = new THREE.Mesh(forma2,anyag)
+  var laab2 = new THREE.Mesh(forma2,anyag)
+  
+  goemb.add(laab1)
+  goemb.add(laab2)
+
+  laab1.position.y = y-110
+  laab1.position.x= 55
+  
+  laab2.position.y = y-110
+  laab2.position.x= -55
+  
+  var ford = 0
+  goemb.rotation.y = ford/5
+
+function animaatee() {
+  requestAnimationFrame (animaatee)
+  goemb.rotation.y = Date.now()*0.0005
+    renderer.render(scene, camera);
+  }
+animaatee()
+
+  // Now, show what the camera sees on the screen:
+
+</script>
