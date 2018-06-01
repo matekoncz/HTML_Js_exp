@@ -46,8 +46,8 @@ var foldmozgato = new THREE.Object3D()
 scene.add(foldmozgato)
 var fold = bolygo(22,[0.5,1,0],'fold')
 foldmozgato.add(fold)
-fold.position.x = -500
-fold.position.z = -500
+fold.position.x = -353
+fold.position.z = -353
 
 var hold = bolygo(9,[0.5,0.5,0.5],'hold')
 fold.add(hold)
@@ -58,22 +58,38 @@ var marsmozgato = new THREE.Object3D()
 scene.add(marsmozgato)
 var mars = bolygo(20,[1,0,0],'mars')
 marsmozgato.add(mars)
-mars.position.x = 0
-mars.position.z = 600
+mars.position.x = 424
+mars.position.z = 424
 
-var ora = new THREE.Clock()
+document.addEventListener('keydown', function (event){
+  var kood = event.keyCode
+  console.log('kood='+kood)
+  if (kood==39) camera.rotation.y -=0.01;
+  if (kood==37) camera.rotation.y+=0.01;
+  if (kood==38) camera.rotation.x +=0.01;
+  if (kood==40) camera.rotation.x -=0.01;
+  
+  if (kood==65) camera.position.x -=10;
+  if (kood==68) camera.position.x +=10;
+  if (kood==87) camera.position.z -=10;
+  if (kood==83) camera.position.z +=10;
+  
+  if (kood==81) camera.position.y +=10;
+  if (kood==89) camera.position.y -=10;
+  })
 
 
+var ora = new THREE.Clock();
 
 function animate (){
   requestAnimationFrame(animate)
   renderer.render(scene, camera);
-  var ido = ora.getElapsedTime()
-  merkurmozgato.rotation.set(0.2,ido,0)
-  venusmozgato.rotation.set(0.1,ido*0.8,0.1)
-  foldmozgato.rotation.set(0.1,ido*0.7,-0.1)
-  fold.rotation.set(0,10*ido,0)
-  marsmozgato.rotation.set(0,ido*0.65,0)
+  var ido = ora.getElapsedTime();
+  merkurmozgato.rotation.set(0.2,ido*1.2,0);
+  venusmozgato.rotation.set(0.1,ido*1,0.1);
+  foldmozgato.rotation.set(0.1,ido*0.8,-0.1);
+  fold.rotation.set(0,10*ido,0);
+  marsmozgato.rotation.set(0,ido*0.6,0);
   }
 
 animate()
