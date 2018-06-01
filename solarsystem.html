@@ -1,0 +1,54 @@
+<body></body>
+<script src="http://gamingJS.com/Three.js"></script>
+<script src="http://gamingJS.com/ChromeFixes.js"></script>
+<script>
+  // This is where stuff in our game will happen:
+  var scene = new THREE.Scene();
+
+  // This is what sees the stuff:
+  var aspect_ratio = window.innerWidth / window.innerHeight;
+  var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
+  camera.position.z = 500;
+  scene.add(camera);
+
+  // This will draw what the camera sees onto the screen:
+  var renderer = new THREE.CanvasRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // ******** START CODING ON THE NEXT LINE ********
+
+function bolygo(r,c,name) {
+  var Forma = new THREE.SphereGeometry(r,10,10)
+var szin = new THREE.MeshBasicMaterial()
+szin.color.setRGB(...c)
+var nap = new THREE.Mesh(Forma,szin)
+nap.name = name
+return nap
+}
+
+var nap = bolygo(200,[1,0.5,0], 'Nap')
+scene.add(nap)
+
+var merkurmozgato = new THREE.Object3D()
+scene.add(merkurmozgato)
+var merkur = bolygo(10,[0.5,0.5,0.5],'Merkur')
+merkurmozgato.add(merkur)
+merkur.position.x = 300
+
+
+
+
+var ora = new THREE.Clock()
+
+function animate (){
+  requestAnimationFrame(animate)
+  renderer.render(scene, camera);
+  var ido = ora.getElapsedTime()
+  merkurmozgato.rotation.set(0.2,ido,0)
+  }
+
+animate()
+
+  // Now, show what the camera sees on the screen:
+</script>
