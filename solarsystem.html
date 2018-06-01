@@ -19,7 +19,7 @@
   // ******** START CODING ON THE NEXT LINE ********
 
 function bolygo(r,c,name) {
-  var Forma = new THREE.SphereGeometry(r,10,10)
+  var Forma = new THREE.SphereGeometry(r,15,15)
 var szin = new THREE.MeshBasicMaterial()
 szin.color.setRGB(...c)
 var nap = new THREE.Mesh(Forma,szin)
@@ -36,16 +36,44 @@ var merkur = bolygo(10,[0.5,0.5,0.5],'Merkur')
 merkurmozgato.add(merkur)
 merkur.position.x = 300
 
+var venusmozgato = new THREE.Object3D()
+scene.add(venusmozgato)
+var venus = bolygo(14,[0.5,0.5,0.8],'venus')
+venusmozgato.add(venus)
+venus.position.x = -400
 
+var foldmozgato = new THREE.Object3D()
+scene.add(foldmozgato)
+var fold = bolygo(22,[0.5,1,0],'fold')
+foldmozgato.add(fold)
+fold.position.x = -500
+fold.position.z = -500
 
+var hold = bolygo(9,[0.5,0.5,0.5],'hold')
+fold.add(hold)
+hold.position.x = -25
+hold.position.z = -25
+
+var marsmozgato = new THREE.Object3D()
+scene.add(marsmozgato)
+var mars = bolygo(20,[1,0,0],'mars')
+marsmozgato.add(mars)
+mars.position.x = 0
+mars.position.z = 600
 
 var ora = new THREE.Clock()
+
+
 
 function animate (){
   requestAnimationFrame(animate)
   renderer.render(scene, camera);
   var ido = ora.getElapsedTime()
   merkurmozgato.rotation.set(0.2,ido,0)
+  venusmozgato.rotation.set(0.1,ido*0.8,0.1)
+  foldmozgato.rotation.set(0.1,ido*0.7,-0.1)
+  fold.rotation.set(0,10*ido,0)
+  marsmozgato.rotation.set(0,ido*0.65,0)
   }
 
 animate()
