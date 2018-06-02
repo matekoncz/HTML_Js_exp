@@ -12,11 +12,14 @@
   scene.add(camera);
 
   // This will draw what the camera sees onto the screen:
-  var renderer = new THREE.CanvasRenderer();
+  var renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
   // ******** START CODING ON THE NEXT LINE ********
+
+
+//bolygók
 
 function bolygo(r,c,name) {
   var Forma = new THREE.SphereGeometry(r,15,15)
@@ -27,7 +30,7 @@ nap.name = name
 return nap
 }
 
-var nap = bolygo(200,[1,0.5,0], 'Nap')
+var nap = bolygo(210,[1,0.7,0], 'Nap')
 scene.add(nap)
 
 var merkurmozgato = new THREE.Object3D()
@@ -61,6 +64,30 @@ marsmozgato.add(mars)
 mars.position.x = 424
 mars.position.z = 424
 
+var jupitermozgato = new THREE.Object3D()
+scene.add(jupitermozgato)
+var jupiter = bolygo(55,[1,0.5,0],'jupiter')
+jupitermozgato.add(jupiter)
+jupiter.position.x = -910
+jupiter.position.z = 0
+
+var saturnmozgato = new THREE.Object3D()
+scene.add(saturnmozgato)
+var saturn = bolygo(45,[0.9,0.65,0],'saturn')
+saturnmozgato.add(saturn)
+saturn.position.x = 1210
+saturn.position.z = 0
+
+//gyűrű
+
+var kor = new THREE.TorusGeometry(65,7,16,16)
+var szurke = new THREE.MeshBasicMaterial()
+szurke.color.setRGB(0.5,0.5,0.6)
+var gyuru = new THREE.Mesh(kor,szurke)
+saturn.add(gyuru)
+gyuru.rotation.set(Math.PI/4,0,0)
+
+
 //kisbolygók
 
 function kisbolygo(x,z,m) {
@@ -73,15 +100,47 @@ kb.position.set(x,0,z)
 return kb
 }
 
-kisbolygo(0,700,venusmozgato)
-kisbolygo(0,-700,venusmozgato)
-kisbolygo(700/Math.sqrt(2),700/Math.sqrt(2),venusmozgato)
-kisbolygo(-700/Math.sqrt(2),700/Math.sqrt(2),venusmozgato)
-kisbolygo(700/Math.sqrt(2),-700/Math.sqrt(2),venusmozgato)
+//a Vénuszhoz
+
+kisbolygo(0,700,venusmozgato);
+kisbolygo(0,-700,venusmozgato);
+kisbolygo(740/Math.sqrt(2),740/Math.sqrt(2),venusmozgato);
+kisbolygo(-740/Math.sqrt(2),740/Math.sqrt(2),venusmozgato);
+kisbolygo(720/Math.sqrt(2),-720/Math.sqrt(2),venusmozgato);
+kisbolygo(-720/Math.sqrt(2),-720/Math.sqrt(2),venusmozgato);
+kisbolygo(-730,0,venusmozgato);
+kisbolygo(730,0,venusmozgato);
+
+//a Merkúrhoz
+
+kisbolygo(0,710,merkurmozgato);
+kisbolygo(0,-710,merkurmozgato);
+kisbolygo(745/Math.sqrt(2),745/Math.sqrt(2),merkurmozgato);
+kisbolygo(-745/Math.sqrt(2),745/Math.sqrt(2),merkurmozgato);
+kisbolygo(725/Math.sqrt(2),-725/Math.sqrt(2),merkurmozgato);
+kisbolygo(-725/Math.sqrt(2),-725/Math.sqrt(2),merkurmozgato);
+kisbolygo(-735,0,merkurmozgato);
+kisbolygo(735,0,merkurmozgato);
+
+//a Földhöz
+
+kisbolygo(0,700,foldmozgato);
+kisbolygo(0,-700,foldmozgato);
+kisbolygo(740/Math.sqrt(2),740/Math.sqrt(2),foldmozgato);
+kisbolygo(-740/Math.sqrt(2),740/Math.sqrt(2),foldmozgato);
+kisbolygo(720/Math.sqrt(2),-720/Math.sqrt(2),foldmozgato);
+kisbolygo(-720/Math.sqrt(2),-720/Math.sqrt(2),foldmozgato);
+kisbolygo(-730,0,foldmozgato);
+kisbolygo(730,0,foldmozgato);
+
+//billentyűzet
 
 document.addEventListener('keydown', function (event){
   var kood = event.keyCode
   console.log('kood='+kood)
+  
+  //irányítás
+  
   if (kood==39) camera.rotation.y -=0.01;
   if (kood==37) camera.rotation.y+=0.01;
   if (kood==38) camera.rotation.x +=0.01;
@@ -92,7 +151,7 @@ document.addEventListener('keydown', function (event){
   if (kood==87) camera.position.z -=10;
   if (kood==83) camera.position.z +=10;
   
-  if (kood==81) camera.position.y +=10;
+    if (kood==81) camera.position.y +=10;
   if (kood==89) camera.position.y -=10;
   
   //beállítások
@@ -106,9 +165,20 @@ document.addEventListener('keydown', function (event){
     camera.rotation.set(-Math.PI/2,0,0)
   }
   
+   if (kood==51) {
+    camera.position.set(0,750,750);
+    camera.rotation.set(-Math.PI/4,0,0)
+  }
+  
+   if (kood==52) {
+    camera.position.set(0,0,1200);
+    camera.rotation.set(0,0,0)
+  }
   
   })
 
+
+//innen megy az animálás
 
 var ora = new THREE.Clock();
 
@@ -116,11 +186,14 @@ function animate (){
   requestAnimationFrame(animate)
   renderer.render(scene, camera);
   var ido = ora.getElapsedTime();
+  
   merkurmozgato.rotation.set(0.2,ido*1.2,0);
   venusmozgato.rotation.set(0.1,ido*1,0.1);
   foldmozgato.rotation.set(0.1,ido*0.8,-0.1);
   fold.rotation.set(0,10*ido,0);
   marsmozgato.rotation.set(0,ido*0.6,0);
+  jupitermozgato.rotation.set(0,ido*0.3,0);
+  saturnmozgato.rotation.set(-0.07,ido*0.15,0.07);
   }
 
 animate()
