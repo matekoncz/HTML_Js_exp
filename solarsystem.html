@@ -61,6 +61,24 @@ marsmozgato.add(mars)
 mars.position.x = 424
 mars.position.z = 424
 
+//kisbolygók
+
+function kisbolygo(x,z,m) {
+  var forma = new THREE.SphereGeometry(4)
+var sziin = new THREE.MeshBasicMaterial()
+sziin.color.setRGB(0.5,0.5,0.5)
+var kb = new THREE.Mesh(forma,sziin)
+m.add(kb)
+kb.position.set(x,0,z)
+return kb
+}
+
+kisbolygo(0,700,venusmozgato)
+kisbolygo(0,-700,venusmozgato)
+kisbolygo(700/Math.sqrt(2),700/Math.sqrt(2),venusmozgato)
+kisbolygo(-700/Math.sqrt(2),700/Math.sqrt(2),venusmozgato)
+kisbolygo(700/Math.sqrt(2),-700/Math.sqrt(2),venusmozgato)
+
 document.addEventListener('keydown', function (event){
   var kood = event.keyCode
   console.log('kood='+kood)
@@ -76,6 +94,19 @@ document.addEventListener('keydown', function (event){
   
   if (kood==81) camera.position.y +=10;
   if (kood==89) camera.position.y -=10;
+  
+  //beállítások
+  
+  if (kood==49) {
+    camera.position.set(0,0,500);
+    camera.rotation.set(0,0,0)
+  }
+  if (kood==50) {
+    camera.position.set(0,1000,0);
+    camera.rotation.set(-Math.PI/2,0,0)
+  }
+  
+  
   })
 
 
