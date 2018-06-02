@@ -78,6 +78,21 @@ saturnmozgato.add(saturn)
 saturn.position.x = 1210
 saturn.position.z = 0
 
+var uranusmozgato = new THREE.Object3D()
+scene.add(uranusmozgato)
+var uranus = bolygo(27,[0.5,0.5,1],'uranus')
+uranusmozgato.add(uranus)
+uranus.position.x = 926
+uranus.position.z = 926
+
+var neptunmozgato = new THREE.Object3D()
+scene.add(neptunmozgato)
+var neptun = bolygo(27,[0.5,0.5,0.9],'neptun')
+neptunmozgato.add(neptun)
+neptun.position.x = -990
+neptun.position.z = -990
+
+
 //gyűrű
 
 var kor = new THREE.TorusGeometry(65,7,16,16)
@@ -174,6 +189,34 @@ document.addEventListener('keydown', function (event){
     camera.position.set(0,0,1200);
     camera.rotation.set(0,0,0)
   }
+  
+  })
+
+
+//innen megy az animálás
+
+var ora = new THREE.Clock();
+
+function animate (){
+  requestAnimationFrame(animate)
+  renderer.render(scene, camera);
+  var ido = ora.getElapsedTime();
+  
+  merkurmozgato.rotation.set(0.2,ido*1.2,0);
+  venusmozgato.rotation.set(0.1,ido*1,0.1);
+  foldmozgato.rotation.set(0.1,ido*0.8,-0.1);
+  fold.rotation.set(0,10*ido,0);
+  marsmozgato.rotation.set(0,ido*0.6,0);
+  jupitermozgato.rotation.set(0,ido*0.3,0);
+  saturnmozgato.rotation.set(-0.07,ido*0.15,0.07);
+  uranusmozgato.rotation.set(0,ido*0.1,0);
+  neptunmozgato.rotation.set(0,ido*0.05,0);
+  }
+
+animate()
+
+  // Now, show what the camera sees on the screen:
+</script>
   
   })
 
