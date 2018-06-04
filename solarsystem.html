@@ -30,21 +30,25 @@ nap.name = name
 return nap
 }
 
+  //Nap
 var nap = bolygo(210,[1,0.7,0], 'Nap')
 scene.add(nap)
 
+  //Merkúr
 var merkurmozgato = new THREE.Object3D()
 scene.add(merkurmozgato)
 var merkur = bolygo(10,[0.5,0.5,0.5],'Merkur')
 merkurmozgato.add(merkur)
 merkur.position.x = 300
 
+  //Vénusz
 var venusmozgato = new THREE.Object3D()
 scene.add(venusmozgato)
 var venus = bolygo(14,[0.5,0.5,0.8],'venus')
 venusmozgato.add(venus)
 venus.position.x = -400
 
+  //Föld
 var foldmozgato = new THREE.Object3D()
 scene.add(foldmozgato)
 var fold = bolygo(22,[0.5,1,0],'fold')
@@ -52,11 +56,13 @@ foldmozgato.add(fold)
 fold.position.x = -353
 fold.position.z = -353
 
+  //Hold
 var hold = bolygo(9,[0.5,0.5,0.5],'hold')
 fold.add(hold)
 hold.position.x = -25
 hold.position.z = -25
 
+  //Mars
 var marsmozgato = new THREE.Object3D()
 scene.add(marsmozgato)
 var mars = bolygo(20,[1,0,0],'mars')
@@ -64,6 +70,7 @@ marsmozgato.add(mars)
 mars.position.x = 424
 mars.position.z = 424
 
+  //Jupiter
 var jupitermozgato = new THREE.Object3D()
 scene.add(jupitermozgato)
 var jupiter = bolygo(55,[1,0.5,0],'jupiter')
@@ -71,6 +78,7 @@ jupitermozgato.add(jupiter)
 jupiter.position.x = -910
 jupiter.position.z = 0
 
+  //szaturnusz
 var saturnmozgato = new THREE.Object3D()
 scene.add(saturnmozgato)
 var saturn = bolygo(45,[0.9,0.65,0],'saturn')
@@ -78,6 +86,7 @@ saturnmozgato.add(saturn)
 saturn.position.x = 1210
 saturn.position.z = 0
 
+  //Uránusz
 var uranusmozgato = new THREE.Object3D()
 scene.add(uranusmozgato)
 var uranus = bolygo(27,[0.5,0.5,1],'uranus')
@@ -85,6 +94,7 @@ uranusmozgato.add(uranus)
 uranus.position.x = 926
 uranus.position.z = 926
 
+  //Neptunusz
 var neptunmozgato = new THREE.Object3D()
 scene.add(neptunmozgato)
 var neptun = bolygo(27,[0.5,0.5,0.9],'neptun')
@@ -92,6 +102,7 @@ neptunmozgato.add(neptun)
 neptun.position.x = -990
 neptun.position.z = -990
 
+  //Plútó nincs, mert nem volt kedvem egy olyan kicsi bolygón annyit vesződni
 
 //gyűrű
 
@@ -218,28 +229,5 @@ animate()
   // Now, show what the camera sees on the screen:
 </script>
   
-  })
-
-
-//innen megy az animálás
-
-var ora = new THREE.Clock();
-
-function animate (){
-  requestAnimationFrame(animate)
-  renderer.render(scene, camera);
-  var ido = ora.getElapsedTime();
-  
-  merkurmozgato.rotation.set(0.2,ido*1.2,0);
-  venusmozgato.rotation.set(0.1,ido*1,0.1);
-  foldmozgato.rotation.set(0.1,ido*0.8,-0.1);
-  fold.rotation.set(0,10*ido,0);
-  marsmozgato.rotation.set(0,ido*0.6,0);
-  jupitermozgato.rotation.set(0,ido*0.3,0);
-  saturnmozgato.rotation.set(-0.07,ido*0.15,0.07);
-  }
-
-animate()
-
-  // Now, show what the camera sees on the screen:
+  //SOLARSYSTEM
 </script>
