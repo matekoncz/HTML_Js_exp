@@ -7,12 +7,12 @@
 
   // This is what sees the stuff:
   var aspect_ratio = window.innerWidth / window.innerHeight;
-  var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
+  var camera = new THREE.StereoCamera(75, aspect_ratio, 1, 10000);
   camera.position.z = 1000;
   scene.add(camera);
 
   // This will draw what the camera sees onto the screen:
-  var renderer = new THREE.StereoRenderer();
+  var renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
