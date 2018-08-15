@@ -1,0 +1,105 @@
+<body></body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js"></script>
+<script>
+  // This is where stuff in our game will happen:
+  var scene = new THREE.Scene();
+  scene.background = new THREE.Color(1,1,1)
+
+  // This is what sees the stuff:
+  var aspect_ratio = window.innerWidth / window.innerHeight;
+  var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
+  camera.position.z = 500;
+  scene.add(camera);
+
+  // This will draw what the camera sees onto the screen:
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // ******** START CODING ON THE NEXT LINE ********
+  
+  var p;
+  
+  var anyag = new THREE.MeshNormalMaterial();
+  
+  
+  //na innen kezdődik kábé
+  
+  document.addEventListener('keydown', function(event){
+    
+    var kod = event.keyCode;
+    console.log('kod'+kod);
+    
+    //kérdés
+    
+    if (kod==49){ p=window.prompt('Adjon meg egy parancsot.  tegla/hossz/szelesség/magasság');
+    
+   //kérdés kiírása
+    
+    console.log(p);
+    
+    // válasz feldolgozása
+    
+    pa=p.split('/');
+    
+    console.log(pa);
+    
+    alap=pa[0];
+    console.log(alap);
+    
+    //test formázása
+    
+    // tegla
+    if (alap=='tegla')   { 
+    
+    hossz=pa[1];
+    console.log(hossz)
+    szel=pa[2];
+    mag=pa[3];
+    
+    var alak = new THREE.BoxGeometry(hossz,szel,mag);
+    test = new THREE.Mesh(alak,anyag);
+    scene.add(test)
+    }
+   
+   
+   }
+   
+   //test forgatása
+   
+   // A
+   if (kod==65) {
+     console.log('forog')
+     test.rotation.y-=0.25
+     }
+     
+  // D
+     if (kod==68) {
+     console.log('forog')
+     test.rotation.y+=0.25
+     }
+     
+     // W
+   if (kod==87) {
+     console.log('forog')
+     test.rotation.x+=0.25
+   }
+   
+   // S
+   if (kod==83) {
+     console.log('forog')
+     test.rotation.x-=0.25
+   }
+   
+    });
+
+
+
+
+  function animate(){
+  // Now, show what the camera sees on the screen:
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+  }
+  animate()
+</script>
