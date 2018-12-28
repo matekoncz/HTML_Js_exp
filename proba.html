@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.fejlec{
+  background-color: lightblue;
+  color: white;
+  height: 600 px;
+  with: 20px;
+  front-size: 100 px;
+  text-align: center;
+  border: 10 px solid black; 
+  }
+.gomb{
+  background color: green;
+  height: 200 px
+  front-size:75 px;
+  with: 400 px;
+}
+</style>
+<head/>
+<body>
+<script src="http://gamingJS.com/Three.js"></script>
+<script src="http://gamingJS.com/ChromeFixes.js"></script>
+<div class ="fejlec">
+POCOK-E
+</div>
+<strong>POCOK-E?</strong>
+<p>Nyomj szóközt!</p>
+<div class= "gomb"><input type="button" value="DONATE"onclick="myFunction()"/></div>
+<button onclick="space()">SPACE</button>
+
+<p id="demo"></p>
+
+</body>
+<script>
+function myFunction() {
+   window.location.replace("https://www.otpbank.hu/portal/hu/Maganszemelyek");
+}
+</script>
+<script>
+
+  var scene = new THREE.Scene();
+  
+  var aspect_ratio = window.innerWidth / window.innerHeight;
+  var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000);
+  camera.position.z = 500;
+  scene.add(camera);
+  
+  var renderer = new THREE.CanvasRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+var pocokL = ['Tibor bá', 'pocok', 'Pocok bá'];
+function eleme(mi){
+  var igaz=0;
+  for (i=0; i<pocokL.length;i++){
+    if (pocokL[i] == mi){
+      igaz =1;
+    }
+  }
+  return(igaz);
+}
+function pocok_e(ki){
+  if (eleme(ki)==1){
+    window.alert('Az bizony!');
+  }else{
+    window.alert('Aljas rágalom');
+  }
+  
+}
+
+function space(){
+  kiapocok = window.prompt('Pocok-e...?')
+    pocok_e(kiapocok)
+}
+document.addEventListener('keydown', function (event){
+  var kood = event.keyCode;
+  console.log('kood='+kood);
+  
+  if (kood==32) {
+    space()
+  }
+  })
+  // Now, show what the camera sees on the screen:
+  renderer.render(scene, camera);
+</script>
+</hzml>
