@@ -37,15 +37,20 @@
  .bejegyzes{
    margin-left: 20px;
    margin-right: 20px;
-   margin-top:20px;
+   margin-top:12px;
    background-color: white;
-   border: 3px dashed red;
+   border: 1px dashed red;
    font-size: 20px;
  }
  .nev{
    text-align:center;
    color: red;
    font-size:35px;
+ }
+ .meret{
+   width:100%;
+   height: auto;
+   margin-top:12px
  }
 </style>
 </head>
@@ -78,12 +83,12 @@ KONZS
  <input class="beiros" type="text" placeholder="szöveg beírása" id="szoveg"/>
  <input type="button" value="kész" onclick="szovegb()">
  <p>
- <input class="beiros" type="text" placeholder="kép url-je"/>
- <input type="button" value="kész">
+ <input class="beiros" type="text" placeholder="kép url-je" id="kepek"/>
+ <input type="button" value="kész" onclick="kepb()">
  </p>
  <p>
- <input class="beiros" type="text" placeholder="video embed-kódja"/>
- <input type="button" value="kész">
+ <input class="beiros" type="text" placeholder="video embed-kódja" id="videok"/>
+ <input type="button" value="kész" onclick="videob()">
  </p>
 </div>
 <script>
@@ -93,6 +98,20 @@ KONZS
     div.classList.add("bejegyzes")
     div.innerHTML= document.getElementById('szoveg').value
     document.getElementById(id).appendChild(div)
+  }
+  function kepb(){
+    var id = window.prompt('Adja meg az azonosítóját!')
+    var img= document.createElement('img');
+    img.classList.add("meret")
+    img.src=document.getElementById('kepek').value
+    document.getElementById(id).appendChild(img)
+  }
+  function videob(){
+    var id=window.prompt('Adja meg az azonosítóját!')
+    var div=document.createElement("div");
+    div.innerHTML=document.getElementById('videok').value
+    document.getElementById(id).appendChild(div)
+    div.children[0].classList.add("meret");
   }
 </script>
 </body>
