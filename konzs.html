@@ -42,6 +42,7 @@
     height: 800px;
     width:  20%;
     float:left;
+    padding: 8px;
   }
   .meret{
     width:60px;
@@ -53,7 +54,13 @@
     font-size: 20px;
   }
   .felh{
+    margin-top: 3px;
     background-color: lightgreen;
+    border: 2px dotted grey;
+  }
+  .flogin{
+    margin-top: 3px;
+    background-color: orange;
     border: 2px dotted grey;
   }
 </style>
@@ -61,54 +68,68 @@
 <body>
   <div class="headline">KONZS2000</div>
   <div class="fdoboz">
-    REGISZTRÁLÁS
-    <input type="text" placeholder="felhasználónév" id="fnevt"/>
-    <input type="text" placeholder="profilkép url-je" id="fkept"/>
-    <br/>
-      <input type="button" value="MEHET" onclick="regisztralas()"/>
-      <br/>
-      <input type="button" value="összes törlése" onclick="torles()"/>
-      <input type="button" value="1 elem törlése" onclick="torles1()"/>
+   <b>BEJELENTKEZÉS<b>
+   <br/>
+   <input type="TEXT" placeholder="E-MAIL" id="miagmail"/>
+   <br/>
+   <input type="password" placeholder="JELSZÓ" id="miajelszo"/>
+   <br/>
+   <p>
+   <input type="button"  value="MEHET" onclick="login()"/>
+   </p>
   </div>
   <div class="cr"></div>
   <div class="fhdoboz" id="felhd"></div>
 </body>
+<script src="//api.backendless.com/sdk/js/latest/backendless.min.js"></script>
 <script>
-fbetolt()
-function fbetolt(){
-document.getElementById('felhd').innerHTML=localStorage.felhasznalok
+ const APP_ID = 'A5E288D6-44CC-0891-FF4B-9AF0E06EBC00';
+ const API_KEY = '9C44D6B9-C1CD-3037-FF80-C2227FC1A700';
+
+  Backendless.serverURL = 'https://api.backendless.com';
+  Backendless.initApp(APP_ID, API_KEY);
+//---------------------------------------------------------
+//---------------------------------------------------------
+  var bejelentkezve = undefined
+  async function betoltes(){
+    document.getElementById("felhd").innerHTML=""
+    var users  = await Backendless.Data.of("Users").find()
+    console.log(users.length)
+    for (var i=0; i<users.length;i++){
+      var div = document.createElement("div")
+      div.id=users[i].email
+      var text= document.createElement("b")
+      text.innerHTML=users[i].name
+      var img=document.createElement("img")
+      img.src=users[i].avatar
+      img.classList.add("meret")
+      div.classList.add("felh")
+      div.appendChild(img)
+      div.appendChild(text)
+      document.getElementById("felhd").appendChild(div)
+    }
+    if (bejelentkezve != undefined){
+     document.getElementById(bejelentkezve.email).classList.remove("felh")
+     document.getElementById(bejelentkezve.email).classList.add("flogin")
+    }
+  }
+async function main(){
+    bejelentkezve=await Backendless.UserService.getCurrentUser()
+    betoltes()
+    
 }
-function torles(){
-localStorage.felhasznalok=""
-fbetolt()
-}
-function mentes(){
-localStorage.felhasznalok=document.getElementById('felhd').innerHTML
-}
-function torles1(){
-var melyik=window.prompt('Melyik felhasználót szeretné törölni?')
-document.getElementById(melyik).remove()
-mentes()
-}
- function regisztralas(){
-   var felhasznalo = document.getElementById('fnevt').value
-   var div =document.createElement("div")
-   var img= document.createElement("img")
-   img.src=document.getElementById("fkept").value
-   img.classList.add("meret")
-   div.appendChild(img)
-   var text=document.createElement("b")
-   text.innerHTML=felhasznalo
-   div.id=(felhasznalo)
-   div.appendChild(text)
-   div.classList.add("vastagb")
-   div.classList.add("felh")
-   if (document.getElementById('felhd').childElementCount==0){
-   localStorage.felhasznalok=div.outerHTML
-   }else{
-   localStorage.felhasznalok=localStorage.felhasznalok+div.outerHTML
-   }
-   console.log(localStorage.felhasznalok)
-   document.getElementById('felhd').appendChild(div)
- }
+main()
+   async function login(){
+    var nev = document.getElementById("miagmail").value
+    var jelszo=document.getElementById("miajelszo").value
+    try{
+      console.log(nev,jelszo)
+      bejelentkezve = await Backendless.UserService.login(nev,jelszo,true)  
+    }catch(error){
+      window.alert("A MANÓBA! Nem sikerült bejelentkezni.")
+      console.log(error)
+      return
+    }
+    await betoltes()
+  }
 </script>
