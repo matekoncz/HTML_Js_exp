@@ -178,6 +178,7 @@ async function szovegeles(){
     szbetoltes()
 }
 async function szbetoltes(){
+  document.getElementById("chat").innerHTML=""
   var poszt=await Backendless.Data.of("POSTS").find()
   poszt.forEach(p=>{
     var div = document.createElement("div")
