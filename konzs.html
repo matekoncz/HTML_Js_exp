@@ -32,8 +32,9 @@
     background-color: lightgreen;
     border: 3px solid grey;
     height: 800px;
-    width:  70%;
+    width:  65%;
     float:left;
+    padding: 40px;
   }
   .fhdoboz{
     margin-left:25px;
@@ -57,16 +58,32 @@
     margin-top: 3px;
     background-color: lightgreen;
     border: 2px dotted grey;
+    padding:5px;
   }
   .flogin{
     margin-top: 3px;
     background-color: orange;
     border: 2px dotted grey;
+    padding:5px;
+  }
+  .crb{
+    margin-top: 8px;
+    border:2px solid grey;
+    background-color: beige;
+    width:95%;
+    height:100%;
+    padding: 25px
+  }
+  .bejegyzes{
+    margin-bottom:25px;
+    padding:6px;
+    border:3px dashed orange;
+    background-color:lightblue;
   }
 </style>
 </head>
 <body>
-  <div class="headline">KONZS2000</div>
+  <div class="headline">TITLE</div>
   <div class="fdoboz">
    <b>BEJELENTKEZÉS<b>
    <br/>
@@ -78,7 +95,13 @@
    <input type="button"  value="MEHET" onclick="login()"/>
    </p>
   </div>
-  <div class="cr"></div>
+  <div class="cr">
+    <input type="text" placeholder="tessék szöveget írni" style="width:870px" id="hosszu"/>
+    <input type="button" value="SZÖVEGELÉS" onclick="szovegeles()"/>
+    <br/>
+    <div class="crb" id="chat">
+    </div>
+  </div>
   <div class="fhdoboz" id="felhd"></div>
 </body>
 <script src="//api.backendless.com/sdk/js/latest/backendless.min.js"></script>
@@ -90,11 +113,13 @@
 //---------------------------------------------------------
 //---------------------------------------------------------
   var bejelentkezve = undefined
+  var azonosit={}
   async function betoltes(){
     document.getElementById("felhd").innerHTML=""
     var users  = await Backendless.Data.of("Users").find()
     console.log(users.length)
     for (var i=0; i<users.length;i++){
+      azonosit[users[i].objectId]=users[i].email
       var div = document.createElement("div")
       div.id=users[i].email
       var text= document.createElement("b")
@@ -119,7 +144,8 @@
   }
 async function main(){
     bejelentkezve=await Backendless.UserService.getCurrentUser()
-    betoltes()
+    await betoltes()
+    szbetoltes()
     
 }
 main()
@@ -142,5 +168,30 @@ async function kepcsere(){
   bejelentkezve.avatar=url
   await Backendless.Data.of("Users").save(bejelentkezve)
   betoltes()
+}
+async function szovegeles(){
+  console.log("hali")
+  var text=document.getElementById("hosszu").value
+    await Backendless.Data.of("POSTS").save({
+    content:text
+    })
+    szbetoltes()
+}
+async function szbetoltes(){
+  var poszt=await Backendless.Data.of("POSTS").find()
+  poszt.forEach(p=>{
+    var div = document.createElement("div")
+    var i = document.createElement("i")
+    div.innerHTML=document.getElementById(azonosit[p.ownerId]).outerHTML
+    if(div.children[0].childElementCount==3){
+    div.children[0].children[2].remove()
+    }
+  i.innerHTML=p.content
+  div.appendChild(i)
+  div.classList.add("bejegyzes")
+  div.children[0].style.width="fit-content"
+  document.getElementById("chat").appendChild(div)
+  })
+  
 }
 </script>
