@@ -85,7 +85,6 @@
 <script>
  const APP_ID = 'A5E288D6-44CC-0891-FF4B-9AF0E06EBC00';
  const API_KEY = '9C44D6B9-C1CD-3037-FF80-C2227FC1A700';
-
   Backendless.serverURL = 'https://api.backendless.com';
   Backendless.initApp(APP_ID, API_KEY);
 //---------------------------------------------------------
@@ -111,6 +110,11 @@
     if (bejelentkezve != undefined){
      document.getElementById(bejelentkezve.email).classList.remove("felh")
      document.getElementById(bejelentkezve.email).classList.add("flogin")
+     var gomb=document.createElement('input')
+     gomb.type="button"
+     gomb.value="kép cseréje"
+     gomb.onclick=kepcsere
+     document.getElementById(bejelentkezve.email).appendChild(gomb)
     }
   }
 async function main(){
@@ -132,4 +136,11 @@ main()
     }
     await betoltes()
   }
+async function kepcsere(){  
+  url = window.prompt("KÉP CSERÉJE")
+  //document.getElementById(bejelentkezve.email).children[0].src =url
+  bejelentkezve.avatar=url
+  await Backendless.Data.of("Users").save(bejelentkezve)
+  betoltes()
+}
 </script>
