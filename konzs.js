@@ -4,6 +4,7 @@ Backendless.serverURL = 'https://api.backendless.com';
 Backendless.initApp(APP_ID, API_KEY);
 //---------------------------------------------------------
 //---------------------------------------------------------
+var lap=0
 var bejelentkezve = undefined
 var azonosit = {}
 async function betoltes() {
@@ -33,7 +34,7 @@ async function betoltes() {
     gomb.onclick = kepcsere
     document.getElementById(bejelentkezve.email).appendChild(gomb)
   }
-  szbetoltes()
+  szbetoltes(lap)
 }
 async function main() {
   bejelentkezve = await Backendless.UserService.getCurrentUser()
@@ -69,12 +70,13 @@ async function szovegeles() {
   await Backendless.Data.of("POSTS").save({
     content: text
   })
-  szbetoltes()
+  szbetoltes(lap)
 }
-async function szbetoltes() {
+async function szbetoltes(n) {
   document.getElementById("chat").innerHTML = ""
   var queryBuilder = Backendless.DataQueryBuilder.create();
-  queryBuilder.setSortBy(["created"]);
+  queryBuilder.setSortBy(["created DESC"]);
+  queryBuilder.setOffset(n)
   var poszt = await Backendless.Data.of("POSTS").find(queryBuilder)
   poszt.forEach(p => {
     var div = document.createElement("div")
@@ -113,4 +115,14 @@ async function szbetoltes() {
 function szbont(szoveg) {
   var szetszed = szoveg.split("#")
   return szetszed
+}
+function lapozas(){
+  lap=lap+10
+  szbetoltes(lap)
+}
+function vissza(){
+  if(lap !=0){
+    lap=lap-10
+    szbetoltes(lap)
+  }
 }
