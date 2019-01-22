@@ -1,97 +1,116 @@
 <head>
- <style>
-  .fodiv{
-    margin-left:50px;
-    margin-top:50px;
-    background-color: lightblue;
-    padding: 20px;
-    height:1000px;
-    width:540px;
-    }
-  .vaszon{
-    border:5px solid black;
-    width:500px;
-    height:500px;
-    }
-  .beiros{
-    height:70px;
-    padding:8px;
-    border:2px dashed grey;
-    background-color:beige;
-    width:490px;
-  }
- </style>
-</head>
-<body>
- <div class="fodiv" id="fodiv">
-  <canvas class="vaszon" id="canvas" width="500" height="500">
-  </canvas>
-  <div class="beiros" id="beiros">
-   <input type="text" placeholder="függvény neve" id="ujnev"/>
-   <input type="text" placeholder="hozzárendelés" id="ujhozrend"/>
-   <input type="text" placeholder="szín" id="ujszin"/>
-   <input type="button" value="jóváhagyás" onclick="ujfuggveny()">
-  </div>
-  <div class="beiros" style="height:300px" id="fgvk">
-  </div>
-</div>
-</body>
-<script>
-window.canvas=document.getElementById("canvas")
-window.ctx = canvas.getContext("2d");
-ctorles()
-sema()
- function ujfuggveny(){
-   var nev = document.getElementById("ujnev").value
-   var hr = document.getElementById("ujhozrend").value
-   var szin = document.getElementById("ujszin").value
-   window[nev]={hr,szin}
-   var div = document.createElement("div")
-   var b = document.createElement("b")
-   b.innerHTML=nev
-   var i = document.createElement("i")
-   i.innerHTML="(x)="+hr
-   var br = document.createElement("br")
-   var sz = document.createElement("i")
-   sz.innerHTML=szin
-   div.appendChild(b)
-   div.appendChild(i)
-   div.appendChild(br)
-   div.appendChild(sz)
-   document.getElementById("fgvk").appendChild(div)
-   fgvrajz(window[nev])
- }
- function ctorles(){
-   ctx.fillStyle = "white";
-   ctx.fillRect(0, 0, 500, 500);
- }
- function sema(){
-   ctx.strokeStyle="black"
-   ctx.beginPath();
-   ctx.moveTo(0,250)
-   ctx.lineTo(500,250)
-   ctx.moveTo(250,0)
-   ctx.lineTo(250,500)
-   ctx.strokeText("-10",0,250)
-   ctx.strokeText("10",250,10)
-   ctx.strokeText("10",490,250)
-   ctx.strokeText("-10",250,500)
-   ctx.stroke();
- }
- function pontrajz(x,y){
-   ctx.strokeRect(x,y,0.5,0.5)
- }
- function fgvrajz(fgv){
-   var hr="y="+fgv.hr
-   var f =new Function("x","return "+fgv.hr)
-   var x=-10
-   var y=0
-   ctx.strokeStyle=fgv.szin
-   for(var i=-10; i<10;i=i+0.1){
-     x=i
-     y=f(x)
-     console.log(y)
-     pontrajz(250+x*25,250-y*25)
+  <style>
+   .fodiv{
+     margin-left:50px;
+     margin-top:50px;
+     background-color: lightblue;
+     padding: 20px;
+     height:1000px;
+     width:540px;
+     }
+   .vaszon{
+     border:5px solid black;
+     width:500px;
+     height:500px;
+     }
+   .beiros{
+     height:70px;
+     padding:8px;
+     border:2px dashed grey;
+     background-color:beige;
+     width:490px;
    }
- }
-</script>
+   .fugveny{
+     border: 2px dotted red;
+     padding: 4px;
+   }
+  </style>
+ </head>
+ <body>
+  <div class="fodiv" id="fodiv">
+   <canvas class="vaszon" id="canvas" width="500" height="500">
+   </canvas>
+   <div class="beiros" id="beiros">
+    <input type="text" placeholder="függvény neve" id="ujnev"/>
+    <input type="text" placeholder="hozzárendelés" id="ujhozrend"/>
+    <input type="text" placeholder="szín" id="ujszin"/>
+    <input type="button" value="jóváhagyás" onclick="ujfuggveny()">
+   </div>
+   <div class="beiros" style="height:300px" id="fgvk">
+   </div>
+ </div>
+ </body>
+ <script>
+ window.canvas=document.getElementById("canvas")
+ window.ctx = canvas.getContext("2d");
+ ctorles()
+ sema()
+  function ujfuggveny(){
+    var nev = document.getElementById("ujnev").value
+    var hr = document.getElementById("ujhozrend").value
+    var szin = document.getElementById("ujszin").value
+    window[nev]={hr,szin}
+    var div = document.createElement("div")
+    var b = document.createElement("b")
+    b.innerHTML=nev
+    var i = document.createElement("i")
+    i.innerHTML="(x)="+hr
+    var br = document.createElement("br")
+    var sz = document.createElement("i")
+    sz.innerHTML=szin
+    div.appendChild(b)
+    div.appendChild(i)
+    div.appendChild(br)
+    div.appendChild(sz)
+    div.classList.add("fugveny")
+    //div.onclick=fugvenytorles()
+    document.getElementById("fgvk").appendChild(div)
+    fgvrajz(window[nev])
+  }
+  function ctorles(){
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 500, 500);
+  }
+  function sema(){
+    ctx.strokeStyle="black"
+    ctx.beginPath();
+    ctx.moveTo(0,250)
+    ctx.lineTo(500,250)
+    ctx.moveTo(250,0)
+    ctx.lineTo(250,500)
+    ctx.strokeText("-10",0,250)
+    ctx.strokeText("10",250,10)
+    ctx.strokeText("10",490,250)
+    ctx.strokeText("-10",250,500)
+    ctx.stroke();
+  }
+  function pontrajz(x,y){
+    ctx.strokeRect(x,y,0.5,0.5)
+  }
+  function fgvrajz(fgv){
+    var hr="y="+fgv.hr
+    var f =new Function("x","return "+fgv.hr)
+    var x=-10
+    var y=0
+    var ex=0
+    var ey=0
+    ctx.strokeStyle=fgv.szin
+    for(var i=-10; i<10;i=i+0.1){
+      x=i
+      y=f(x)
+      console.log(y)
+      pontrajz(250+x*25,250-y*25)
+      if (i>-10){
+        ctx.beginPath()
+        ctx.moveTo(250+ex*25,250-ey*25)
+        ctx.lineTo(250+x*25,250-y*25)
+        ctx.stroke()
+      }
+    ex =x
+    ey =y
+    }
+  }
+  function fugvenytorles(){
+    window.alert("1 függvéy törlése?")
+  }
+ </script>
