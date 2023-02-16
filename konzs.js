@@ -131,12 +131,12 @@ function szbont(szoveg) {
   return szetszed
 }
 function lapozas(){
-  lap=lap+10
+  lap=lap+7
   szbetoltes(lap)
 }
 function vissza(){
   if(lap !=0){
-    lap=lap-10
+    lap=lap-7
     szbetoltes(lap)
   }
 }
