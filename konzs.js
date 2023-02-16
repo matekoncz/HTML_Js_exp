@@ -49,14 +49,28 @@ async function login() {
     console.log(nev, jelszo)
     bejelentkezve = await Backendless.UserService.login(nev, jelszo, true)
   } catch (error) {
-    window.alert("A MANÓBA! Nem sikerült bejelentkezni.")
+    window.alert("A MANÓBA! \n Nem sikerült bejelentkezni.")
+    console.log(error)
+    return
+  }
+  await betoltes()
+}
+
+async function logout() {
+  if(bejelentkezve == undefined){
+    window.alert("HIBA \n Ön bizonyára nincs bejelentkezve.")
+  }
+  try {
+    bejelentkezve = await Backendless.UserService.logout()
+  } catch (error) {
+    window.alert("HIBA")
     console.log(error)
     return
   }
   await betoltes()
 }
 async function kepcsere() {
-  url = window.prompt("KÉP CSERÉJE")
+  url = window.prompt("KÉP CSERÉJE \n írja be a kép URL-jét:")
   //document.getElementById(bejelentkezve.email).children[0].src =url
   if (url) {
     bejelentkezve.avatar = url;
