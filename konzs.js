@@ -1,5 +1,5 @@
-const APP_ID = 'A5E288D6-44CC-0891-FF4B-9AF0E06EBC00';
-const API_KEY = '9C44D6B9-C1CD-3037-FF80-C2227FC1A700';
+const APP_ID = 'E740B979-B083-ED0C-FFD3-2EDE3126C400';
+const API_KEY = 'C1B30CED-2B0D-425D-BCD1-3A4C50A84765';
 Backendless.serverURL = 'https://api.backendless.com';
 Backendless.initApp(APP_ID, API_KEY);
 //---------------------------------------------------------
